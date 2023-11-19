@@ -1,0 +1,18 @@
+name: SoycraftUtilities
+author: baritone
+version: 1.0
+description: a conglomerate of small plug-in related features as to not shit up /plugins with 716886 single file plugins
+main: net.craftutil.Main
+commands:
+  tempban:
+    usage: /tempban <player> <duration> <reason>
+    description: bans <player> for the specified amount of time
+  permban:
+    usage: /permban <player> <reason>
+    description: bans <player> with no expire date
+  troll:
+    description: Use a troll
+    usage: <command>
+  trolllist:
+    description: View trolls
+    usage: <command>
