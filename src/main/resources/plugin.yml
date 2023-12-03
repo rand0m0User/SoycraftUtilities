@@ -1,6 +1,7 @@
 name: SoycraftUtilities
 author: baritone
 version: 1.0
+api-version: 1.20
 description: a conglomerate of small plug-in related features as to not shit up /plugins with 716886 single file plugins
 main: net.craftutil.Main
 commands:
@@ -16,3 +17,15 @@ commands:
   trolllist:
     description: View trolls
     usage: <command>
+  banhammer:
+    usage: /<command>
+    description: Gives you the banhammer
+    aliases: [bh, banham, bhammer, bham]
+  ipbanhammer:
+    usage: /<command>
+    description: Gives you the ipbanhammer
+    aliases: [ih, ipham, ihammer, iham]
+  kickhammer:
+    usage: /<command>
+    description: Gives you the kickhammer
+    aliases: [ kh, kickham, khammer, kham ]

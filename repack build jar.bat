@@ -1,5 +1,8 @@
 @echo off
 color 0a
+"C:\Program Files\7-Zip\7z" a -sdel tmp.null "bin"
+del tmp.null
+
 cd "build"
 
 "C:\Program Files\7-Zip\7z" a -sdel tmp.null "classes"
