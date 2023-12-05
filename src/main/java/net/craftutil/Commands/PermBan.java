@@ -1,19 +1,17 @@
 package net.craftutil.Commands;
 
-import org.jetbrains.annotations.NotNull;
-
 import static org.bukkit.ChatColor.DARK_RED;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import org.bukkit.*;
+
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class PermBan implements CommandExecutor {
 

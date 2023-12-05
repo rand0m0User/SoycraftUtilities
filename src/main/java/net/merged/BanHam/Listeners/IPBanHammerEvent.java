@@ -1,6 +1,10 @@
 package net.merged.BanHam.Listeners;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class IPBanHammerEvent implements Listener {
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onHit(EntityDamageByEntityEvent e) {
 		Entity Damager = e.getDamager();
