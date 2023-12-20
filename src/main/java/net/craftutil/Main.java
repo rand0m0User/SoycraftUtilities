@@ -12,23 +12,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.craftutil.Commands.PermBan;
-import net.craftutil.Commands.TempBan;
-import net.craftutil.Commands.completer.PermBanCompleter;
-import net.craftutil.Commands.completer.TempBanCompleter;
-import net.merged.BanHam.Commands.GiveBanhammerCommand;
-import net.merged.BanHam.Commands.GiveIPBanhammerCommand;
-import net.merged.BanHam.Commands.GiveKickHammerCommand;
-import net.merged.BanHam.Listeners.BanHammerEvent;
-import net.merged.BanHam.Listeners.IPBanHammerEvent;
-import net.merged.BanHam.Listeners.KickHammerEvent;
+import net.craftutil.Commands.*;
+import net.craftutil.Commands.completer.*;
+import net.craftutil.Listeners.*;
+import net.merged.BanHam.Commands.*;
+import net.merged.BanHam.Listeners.*;
 import net.merged.TNT.DestructiveBlockListener;
 import net.merged.admintrolling.Command.Troll;
 import net.merged.admintrolling.Command.completer.TrollCompleter;
-import net.merged.admintrolling.Listeners.Break;
-import net.merged.admintrolling.Listeners.BuildTroll;
-import net.merged.admintrolling.Listeners.ChatListener;
-import net.merged.admintrolling.Listeners.Frozen;
+import net.merged.admintrolling.Listeners.*;
 import net.merged.greentextPlus.GreentextChatListener;
 
 public class Main extends JavaPlugin {
@@ -63,6 +55,12 @@ public class Main extends JavaPlugin {
 
 		// disabled in development shit
 		// listen(new BlockListener()); //window breaker deturant and diamond farm
+
+		// salty knot datamining, may be removed in the future
+		listen(new LootGenerateListener());
+
+		//usable crafting table (like a tool)
+		listen(new PlayerInteractListener());
 
 		// merged: admintrolling (plus)
 		listen(new BuildTroll());

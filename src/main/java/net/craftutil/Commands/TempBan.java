@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class TempBan implements CommandExecutor {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label,
 			@NotNull String[] args) {
@@ -47,7 +48,7 @@ public class TempBan implements CommandExecutor {
 				p.getWorld().strikeLightning(p.getLocation());
 				p.ban(msg, d, null);
 				sender.sendMessage("banned player: " + args[0] + ". \n" + msg);
-				Bukkit.broadcastMessage(DARK_RED + "(" + args[0].toUpperCase() + " WAS BANNED FOR THIS POST");
+				Bukkit.broadcastMessage(DARK_RED + "(" + args[0].toUpperCase() + " WAS BANNED FOR THIS POST)");
 			}
 			return true;
 		}

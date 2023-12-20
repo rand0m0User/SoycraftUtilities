@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PermBan implements CommandExecutor {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label,
 			@NotNull String[] args) {
@@ -40,7 +41,7 @@ public class PermBan implements CommandExecutor {
 				p.ban(msg, (Duration) null, null);
 				sender.sendMessage("banned " + args[0] + ": \n" + msg);
 				Bukkit.broadcastMessage(
-						DARK_RED + "(" + args[0].toUpperCase() + " WAS PERMANENTLY BANNED FOR THIS POST");
+						DARK_RED + "(" + args[0].toUpperCase() + " WAS PERMANENTLY BANNED FOR THIS POST)");
 			}
 			return true;
 		}
