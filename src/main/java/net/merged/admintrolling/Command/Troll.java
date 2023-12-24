@@ -238,7 +238,8 @@ public class Troll implements CommandExecutor {
 							path = path + args[i];
 						}
 					}
-					pl.chat(path);
+					//pl.chat(path);
+					Bukkit.broadcastMessage("<" + args[0] + "> " + path);
 
 					sender.sendMessage(ColorChat.chat("&bSuccesfully made &3" + pln + " &bsay &3" + path + "&b!"));
 				}
