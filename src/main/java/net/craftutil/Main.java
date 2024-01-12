@@ -58,6 +58,10 @@ public class Main extends JavaPlugin {
 
 		// salty knot datamining, may be removed in the future
 		listen(new LootGenerateListener());
+		
+		//anti discord proxy scanner bot
+		listen(new PlayerJoinListener());
+		
 
 		//usable crafting table (like a tool)
 		listen(new PlayerInteractListener());

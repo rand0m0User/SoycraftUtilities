@@ -21,23 +21,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings("deprecation")
-
 public class DestructiveBlockListener implements Listener {
-
-	private final ChatColor a = ChatColor.AQUA;
-	private final ChatColor g = ChatColor.GOLD;
-	private final ChatColor r = ChatColor.RED;
-	private final ChatColor R = ChatColor.RED;
-
+	
 	private final List<Material> rails = new ArrayList<>(
 			Arrays.asList(Material.ACTIVATOR_RAIL, Material.DETECTOR_RAIL, Material.POWERED_RAIL, Material.RAIL));
-	private final String prefix = String.format("%s[%sT%sN%sT%s]", R, r, ChatColor.WHITE, r, R);
 
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {
 		if (e.getBlock().getType() == Material.TNT) {
-			Bukkit.broadcastMessage(String.format("%s%sPlayer %s%s %splaced a %sTNT %sblock!", prefix, g, a,
-					e.getPlayer().getName(), g, r, g));
+			announce(String.format("Player &b%s &6placed the &cTNT &6block!", e.getPlayer().getName()));
 		}
 	}
 
@@ -46,12 +38,10 @@ public class DestructiveBlockListener implements Listener {
 		if (e.getBlock().getType() == Material.DISPENSER) {
 			Material m = e.getItem().getType();
 			if (m == Material.TNT) {
-				Bukkit.broadcastMessage(
-						String.format("%s%sa %sDispenser %sdispensed a %sTNT %sblock!", prefix, g, a, g, r, g));
+				announce("a &bDispenser &6dispensed a &cTNT &6block!");
 			}
 			if (m == Material.TNT_MINECART) {
-				Bukkit.broadcastMessage(
-						String.format("%s%sa %sDispenser %sdispensed a %sTNT minecart!", prefix, g, a, g, r));
+				announce("a &bDispenser &6dispensed a &cTNT minecart&6!");
 			}
 		}
 	}
@@ -60,9 +50,9 @@ public class DestructiveBlockListener implements Listener {
 	public void onExplode(ExplosionPrimeEvent e) {
 		EntityType et = e.getEntity().getType();
 		if (et == EntityType.MINECART_TNT) {
-			Bukkit.broadcastMessage(String.format("%s%sthe %sTNT minecart %swas activated!", prefix, g, a, g));
+			announce("the &cTNT minecart &6was activated!");
 		} else if (et == EntityType.ENDER_CRYSTAL) {
-			Bukkit.broadcastMessage(String.format("%s%sthe %sEnd Crystal %swas activated!", prefix, g, a, g));
+			announce("the &cEnd Crystal &6was activated!");
 		}
 	}
 
@@ -70,22 +60,23 @@ public class DestructiveBlockListener implements Listener {
 	public void onTNTPrime(TNTPrimeEvent e) { // migrate old message to TNTPrimeEvent
 		switch (e.getCause()) {
 		case PLAYER:
-			// if a player is trying to light tnt
+			// if a player is trying to light tnt manually... (also an indirect NULL check)
 			if (e.getPrimingEntity().getType() == EntityType.PLAYER) {
 				Player p = (Player) e.getPrimingEntity();
-				Bukkit.broadcastMessage(
-						String.format("%s%sPlayer %s%s %sactivated the TNT!", prefix, g, a, p.getName(), g));
+				announce(String.format("Player &b%s &6activated the &cTNT&6!", p.getName()));
 			}
 			break;
 		case REDSTONE:
-			Bukkit.broadcastMessage(String.format("%s%sa %sRedstone signal %sactivated the TNT!", prefix, g, a, g));
+			announce("a &bRedstone signal &6activated the &cTNT&6!");
 			break;
 		case PROJECTILE:
-			Bukkit.broadcastMessage(String.format("%s%sa %s%s %sactivated the TNT!", prefix, g, a,
-					e.getPrimingEntity().getType().name().toLowerCase().replace("_", " "), g));
+			announce(String.format("a &b%s &6activated the &cTNT&6!",
+					e.getPrimingEntity().getType().name().toLowerCase().replace("_", " ")));
 			break;
-		case DISPENSER:
-			Bukkit.broadcastMessage(String.format("%s%sa %sDispenser %sactivated the TNT!", prefix, g, a, g));
+		case DISPENSER: //may be redundant due to modispencermachanics the Dispenser-Block showing as a player
+			announce("a &bDispenser &6activated the &cTNT&6!");
+		default:
+			break;
 		}
 	}
 
@@ -94,18 +85,21 @@ public class DestructiveBlockListener implements Listener {
 		Block b = e.getClickedBlock();
 		ItemStack is = e.getItem();
 		if (is != null && b != null) { // null checks
+			String pln = e.getPlayer().getName();
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				// if player is trying to place a tnt minecart on rails
 				if (is.getType() == Material.TNT_MINECART && rails.contains(b.getType())) {
-					Bukkit.broadcastMessage(String.format("%s%sPlayer %s%s %splaced a %sTNT minecart%s!", prefix, g, a,
-							e.getPlayer().getName(), g, r, g));
-				} // if player is trying to place an end crystal
-				else if (is.getType() == Material.END_CRYSTAL
+					announce(String.format("Player &b%s &6placed the &cTNT minecart&6!", pln));
+				} else if (is.getType() == Material.END_CRYSTAL
 						&& (b.getType() == Material.OBSIDIAN || b.getType() == Material.BEDROCK)) {
-					Bukkit.broadcastMessage(String.format("%s%sPlayer %s%s %splaced a %sEnd Crystal%s!", prefix, g, a,
-							e.getPlayer().getName(), g, r, g));
+					announce(String.format("Player &b%s &6placed the &cEnd Crystal&6!", pln));
 				}
 			}
 		}
+	}
+
+	// duplicate code removal
+	public static void announce(String message) {
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&4[&cT&fN&cT&4] &6" + message));
 	}
 }
