@@ -30,20 +30,6 @@ public class GreentextChatListener implements Listener {
 		String msg = e.getMessage();
 		// msg.replaceAll(":skull:", "\u2620"); //i will NOT learn regex!
 
-		//fuck this currynigger shitskin garbage of a language
-		//>HURR DUR JUST USE .REPLACE! IT JUST WORKS
-		//kill yourself pajeet nigger animals
-		//also kill yourself slava, nobody likes your racebait garbage
-		
-		//>inb4 "clitty this clitty that"
-		//shut the fuck up faggot
-		
-		// msg = msg.replaceAll("(?i)\\baryan\\b", "shitskin");
-
-		//msg = java.util.regex.Pattern.compile("\\|aryan|\\").matcher(msg).replaceAll("shitskin");
-		
-		//also screw this esoteric programming language known as "regex", die a horrable death
-
 		String ret = "";
 		switch (msg.charAt(0)) { // attempt at optomizing out if else spam by using a switch jumptable
 		case '>':
