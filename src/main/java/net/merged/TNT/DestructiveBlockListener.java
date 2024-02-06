@@ -20,9 +20,11 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import net.utils.ColorChat;
+
 @SuppressWarnings("deprecation")
 public class DestructiveBlockListener implements Listener {
-	
+
 	private final List<Material> rails = new ArrayList<>(
 			Arrays.asList(Material.ACTIVATOR_RAIL, Material.DETECTOR_RAIL, Material.POWERED_RAIL, Material.RAIL));
 
@@ -73,7 +75,8 @@ public class DestructiveBlockListener implements Listener {
 			announce(String.format("a &b%s &6activated the &cTNT&6!",
 					e.getPrimingEntity().getType().name().toLowerCase().replace("_", " ")));
 			break;
-		case DISPENSER: //may be redundant due to modispencermachanics the Dispenser-Block showing as a player
+		case DISPENSER: // may be redundant due to modispencermachanics the Dispenser-Block showing as a
+						// player
 			announce("a &bDispenser &6activated the &cTNT&6!");
 		default:
 			break;
@@ -100,6 +103,6 @@ public class DestructiveBlockListener implements Listener {
 
 	// duplicate code removal
 	public static void announce(String message) {
-		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&4[&cT&fN&cT&4] &6" + message));
+		Bukkit.broadcastMessage(ColorChat.chat("&4[&cT&fN&cT&4] &6" + message));
 	}
 }

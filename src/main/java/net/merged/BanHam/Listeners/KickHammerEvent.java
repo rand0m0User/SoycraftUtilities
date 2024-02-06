@@ -1,7 +1,6 @@
 package net.merged.BanHam.Listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -11,6 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+
+import net.utils.ColorChat;
 
 public class KickHammerEvent implements Listener {
 	@SuppressWarnings("deprecation")
@@ -25,22 +26,22 @@ public class KickHammerEvent implements Listener {
 					&& stack.getItemMeta().getLocalizedName().equals("kick_hammer")) {
 				if (DamagerP.hasPermission("BanHammer.CanUseBanhammer")) {
 					if (!(Banned instanceof Player)) {
-						DamagerP.sendMessage(ChatColor.RED + "You can't kick a "
-								+ Banned.getType().name().toLowerCase().replace("_", " "));
+						DamagerP.sendMessage(ColorChat
+								.chat("&cYou can't kick a " + Banned.getType().name().toLowerCase().replace("_", " ")));
 					} else {
 						Player BannedP = (Player) Banned;
 						if (BannedP.isOp()) {
-							DamagerP.sendMessage(ChatColor.RED + "You can't kick an operator");
+							DamagerP.sendMessage(ColorChat.chat("&cYou can't kick an operator"));
 						} else {
 							// send command
 							Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
 									"kick " + BannedP.getDisplayName());
 							DamagerP.sendMessage(
-									ChatColor.GREEN + "You have sucessfully punished " + BannedP.getDisplayName());
+									ColorChat.chat("&3You have sucessfully punished " + BannedP.getDisplayName()));
 
 							// public message
-							Bukkit.broadcastMessage(ChatColor.AQUA + BannedP.getDisplayName() + ChatColor.RESET
-									+ ChatColor.GOLD + " Has been hit by the kick hammer, literally");
+							Bukkit.broadcastMessage(ColorChat.chat("&3" + BannedP.getDisplayName()
+									+ " &R&6Has been hit by the kick hammer, literally"));
 
 							// play sound
 							for (Player p : Bukkit.getOnlinePlayers()) {
@@ -53,13 +54,13 @@ public class KickHammerEvent implements Listener {
 						}
 					}
 				} else {
-					DamagerP.sendMessage(ChatColor.RED + "You can't kick a "
-							+ Banned.getType().name().toLowerCase().replace("_", " "));
+					DamagerP.sendMessage(ColorChat
+							.chat("&cYou can't kick a " + Banned.getType().name().toLowerCase().replace("_", " ")));
 					for (int i = 0; i <= 5; i++) {
 						DamagerP.getWorld().strikeLightning(DamagerP.getLocation());
 					}
 					DamagerP.damage(Integer.MAX_VALUE);
-					DamagerP.sendMessage(ChatColor.RED + "YOU ARE NOT WORTHY");
+					DamagerP.sendMessage(ColorChat.chat("&4YOU ARE NOT WORTHY"));
 				}
 				e.setCancelled(true);
 			}

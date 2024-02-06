@@ -16,7 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import net.merged.admintrolling.utils.ColorChat;
+import net.utils.ColorChat;
 
 public class Troll implements CommandExecutor {
 

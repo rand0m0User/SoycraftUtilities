@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import net.merged.admintrolling.utils.ColorChat;
+import net.utils.ColorChat;
 
 public class Trolllist implements CommandExecutor {
 

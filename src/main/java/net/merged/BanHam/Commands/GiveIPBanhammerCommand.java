@@ -3,7 +3,6 @@ package net.merged.BanHam.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,13 +12,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import net.utils.ColorChat;
+
 public class GiveIPBanhammerCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label,
 			@NotNull String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "ERROR: \t console can't use this command\n\tsorry");
+			sender.sendMessage(ColorChat.chat("&cERROR: \t console can't use this command\n\tsorry"));
 			return true;
 		} else {
 			Player player = (Player) sender;
@@ -28,10 +29,10 @@ public class GiveIPBanhammerCommand implements CommandExecutor {
 			} else {
 				ItemStack Bh = new ItemStack(Material.GOLDEN_AXE, 1);
 				ItemMeta BhMeta = Bh.getItemMeta();
-				BhMeta.setDisplayName(ChatColor.YELLOW + "IP-BAN HAMMER");
+				BhMeta.setDisplayName(ColorChat.chat("&eIP-BAN HAMMER"));
 				BhMeta.setLocalizedName("ipban_hammer");
 				List<String> lore = new ArrayList<>();
-				lore.add(ChatColor.LIGHT_PURPLE + "Hit a hacker with it!");
+				lore.add(ColorChat.chat("&dHit a hacker with it!"));
 				BhMeta.setLore(lore);
 				Bh.setItemMeta(BhMeta);
 				player.getInventory().addItem(Bh);

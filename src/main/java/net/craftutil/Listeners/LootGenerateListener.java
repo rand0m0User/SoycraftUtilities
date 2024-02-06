@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.LootGenerateEvent;
 
-import net.merged.admintrolling.utils.ColorChat;
+import net.utils.ColorChat;
 
 public class LootGenerateListener implements Listener {
 

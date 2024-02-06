@@ -1,5 +1,7 @@
 package net.craftutil;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -58,12 +60,19 @@ public class Main extends JavaPlugin {
 
 		// salty knot datamining, may be removed in the future
 		listen(new LootGenerateListener());
-		
-		//anti discord proxy scanner bot
-		listen(new PlayerJoinListener());
-		
 
-		//usable crafting table (like a tool)
+		// anti discord proxy scanner bot
+		// listen(new PlayerJoinListener()); //disabled due to inactivity
+
+		//AI generated code to handle the chineze book banner's shananigans (may be removed in the future)
+		LocalDate currentDate = LocalDate.now();
+		Month currentMonth = currentDate.getMonth();
+		if (currentMonth == Month.JANUARY || currentMonth == Month.JULY) {
+			console.info("6 months has passed, BookListener is enabled");
+			listen(new BookListener());
+		}
+
+		// usable crafting table (like a tool)
 		listen(new PlayerInteractListener());
 
 		// merged: admintrolling (plus)
@@ -90,6 +99,7 @@ public class Main extends JavaPlugin {
 	// I ❤ BOILERPLATE
 	// I ❤ BOILERPLATE
 
+	// duplicate code removal
 	public void listen(Listener l) {
 		this.getServer().getPluginManager().registerEvents(l, this);
 	}
