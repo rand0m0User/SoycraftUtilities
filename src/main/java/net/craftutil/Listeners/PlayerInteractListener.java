@@ -13,12 +13,13 @@ public class PlayerInteractListener implements Listener { // I ❤ BOILERPLATE
 	// anything
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		//if (e.getBlockFace() == null) {
-			Player p = e.getPlayer();
-			// if the player is sneaking while holding a crafting table
-			if (p.isSneaking() && p.getInventory().getItemInMainHand().getType().equals(Material.CRAFTING_TABLE)) {
-				p.openWorkbench(p.getLocation(), true); // open the crafting UI
-			}
-		//}
+		Player p = e.getPlayer();
+		// if the player is sneaking while holding a crafting table
+		if (p.isSneaking() && p.getInventory().getItemInMainHand().getType().equals(Material.CRAFTING_TABLE)) {
+			p.openWorkbench(p.getLocation(), true); // open the crafting UI
+		}
+		if (p.isSneaking() && p.getInventory().getItemInMainHand().getType().equals(Material.STONECUTTER)) {
+			p.openStonecutter(p.getLocation(), true); // open the stonecutter UI
+		}
 	}
 }
