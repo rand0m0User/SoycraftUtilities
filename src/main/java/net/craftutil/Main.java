@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
 	// I ❤ BOILERPLATE
 	@Override
 	public void onEnable() {
+
 		console.info("Initializing commands");
 		initCommand("tempban", new TempBan(), new TempBanCompleter());
 		initCommand("permban", new PermBan(), new PermBanCompleter());
@@ -64,7 +65,8 @@ public class Main extends JavaPlugin {
 		// anti discord proxy scanner bot
 		// listen(new PlayerJoinListener()); //disabled due to inactivity
 
-		//AI generated code to handle the chineze book banner's shananigans (may be removed in the future)
+		// AI generated code to handle the chineze book banner's shananigans (may be
+		// removed in the future)
 		LocalDate currentDate = LocalDate.now();
 		Month currentMonth = currentDate.getMonth();
 		if (currentMonth == Month.JANUARY || currentMonth == Month.JULY) {
@@ -72,7 +74,7 @@ public class Main extends JavaPlugin {
 			listen(new BookListener());
 		}
 
-		// usable crafting table (like a tool)
+		// usable crafting table and stonecutter (like a tool)
 		listen(new PlayerInteractListener());
 
 		// merged: admintrolling (plus)
