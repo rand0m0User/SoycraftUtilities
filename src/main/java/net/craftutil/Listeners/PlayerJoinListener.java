@@ -15,7 +15,7 @@ public class PlayerJoinListener implements Listener {
 	
 	//the names of any proxy bots go here
 
-	String names = "SexCraft69 ServerSeeker_net ServerSeeker";
+	String names = "SexCraft69 ServerSeeker_net ServerSeeker SkyNet";
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {

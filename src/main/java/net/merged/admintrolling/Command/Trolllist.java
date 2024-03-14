@@ -16,6 +16,7 @@ public class Trolllist implements CommandExecutor {
 			sender.sendMessage(
 					ColorChat.chat("&b/troll &3<Player> forcechat <Message> &b: Forces a player to say something"));
 			sender.sendMessage(ColorChat.chat("&b/troll &3<Player> fakeop &b: Makes the user think they got op"));
+			sender.sendMessage(ColorChat.chat("&b/troll &3<Player> fakedeop &b: Makes the user think they lost op"));
 			sender.sendMessage(ColorChat.chat("&b/troll &3<Player> push &b: Pushes a user"));
 			sender.sendMessage(ColorChat.chat("&b/troll &3<Player> launches &b: Launches a user up into the air"));
 			sender.sendMessage(ColorChat.chat("&b/troll &3<Player> burn &b: Burns a user"));

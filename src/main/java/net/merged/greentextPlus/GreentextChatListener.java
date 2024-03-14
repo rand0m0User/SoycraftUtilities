@@ -2,6 +2,7 @@ package net.merged.greentextPlus;
 
 import java.awt.Color;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.craftutil.Settings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -23,27 +25,23 @@ public class GreentextChatListener implements Listener {
 	// the list of all text effects, use it as a cheatsheet, request more to be
 	// added on /craft/
 	private final List<Attribute> formattingAttribute = new ArrayList<>(Arrays.asList(
-			new Attribute(false, ">", NamedTextColor.GREEN, null), 
-			new Attribute(false, "<", NamedTextColor.GOLD, null),
+			new Attribute(false, ">", NamedTextColor.GREEN, null), new Attribute(false, "<", NamedTextColor.GOLD, null),
 			new Attribute(false, "^", NamedTextColor.DARK_PURPLE, null),
-			new Attribute(true, "====", NamedTextColor.DARK_RED, TextDecoration.BOLD), //red "glow" text
+			new Attribute(true, "====", NamedTextColor.DARK_RED, TextDecoration.BOLD), // red "glow" text
 			new Attribute(true, "===", NamedTextColor.DARK_RED, null),
 			new Attribute(true, "==", NamedTextColor.RED, null),
 			new Attribute(true, "=", NamedTextColor.LIGHT_PURPLE, null), // doll text
-			new Attribute(true, "----", NamedTextColor.DARK_BLUE, TextDecoration.BOLD), //blue "glow" text
+			new Attribute(true, "----", NamedTextColor.DARK_BLUE, TextDecoration.BOLD), // blue "glow" text
 			new Attribute(true, "---", NamedTextColor.DARK_BLUE, null),
-			new Attribute(true, "--", NamedTextColor.BLUE, null), 
-			new Attribute(true, "-", NamedTextColor.AQUA, null),
+			new Attribute(true, "--", NamedTextColor.BLUE, null), new Attribute(true, "-", NamedTextColor.AQUA, null),
 			new Attribute(true, "+++", NamedTextColor.BLACK, null),
 			new Attribute(true, "++", NamedTextColor.DARK_GRAY, null), // soot text
-			new Attribute(true, "+", NamedTextColor.GRAY, null), 
-			new Attribute(true, "||", NamedTextColor.YELLOW, null),
+			new Attribute(true, "+", NamedTextColor.GRAY, null), new Attribute(true, "||", NamedTextColor.YELLOW, null),
 			new Attribute(true, "::", NamedTextColor.GOLD, TextDecoration.BOLD),
 			new Attribute(true, "%%", NamedTextColor.DARK_GREEN, TextDecoration.BOLD),
 			new Attribute(true, "~~", -1, TextDecoration.STRIKETHROUGH),
 			new Attribute(true, "__", -1, TextDecoration.UNDERLINED),
-			new Attribute(true, "'''", -1, TextDecoration.BOLD), 
-			new Attribute(true, "''", -1, TextDecoration.ITALIC),
+			new Attribute(true, "'''", -1, TextDecoration.BOLD), new Attribute(true, "''", -1, TextDecoration.ITALIC),
 			new Attribute(true, "~-~", -1, null), // color text
 			new Attribute(true, "&&", 9127187, null) // caca text
 	));
@@ -51,6 +49,9 @@ public class GreentextChatListener implements Listener {
 	private static final String[][] wordFilters = new String[][] {
 			// FORMAT: new String[] { "new word", "/regex that matches for old word/" },
 			new String[] { "\u2620", Pattern.quote(":skull:") },
+			new String[] { "Japanese child porn", "[Ii1Ll][Oo0][Ii1Ll][Ii1Ll]|[Cc\u0421\u0441][UuVv][Nn][Nn][Yyÿ]" },
+			new String[] { "people i dissagree with", "[Bb][Ii1Ll][Gg][Oo0][Tt][Ss$]" },
+			new String[] { "person i dissagree with", "[Bb][Ii1Ll][Gg][Oo0][Tt]" },
 			new String[] { "shitskin", "[aA\u0430\u0440][rR][yYiI\u0443][aA\u0430\u0440][nN]" },
 			new String[] { "chemical castration drugs", "[hH]\s*[rR]\s*[tT]|estrogen" },
 			new String[] { "dnwo", "[bB8\u0441\u0412][nN][wW][oO0]" },
@@ -71,13 +72,25 @@ public class GreentextChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncChatEvent e) {
 		// setup
-		Component message = doAprilFools(e.message());
+		Component message = e.message();
+		LocalDate currentDate = LocalDate.now();
+		Attribute selected = null;
 
-		// apply word filters
-		message = filter(message, wordFilters);
+		if ((currentDate.getMonth() == Month.JUNE || Settings.JuneOveride) && !Settings.JuneDisable) {
+			selected = new Attribute(true, "~-~", -1, null);
+		}
+
+		if (Settings.AprilFoolsOveride) {
+			message = Seasonalwordfilters.apply(e.message());
+		}
+
+		if (Settings.Wordfilters) {
+			// apply word filters
+			message = Seasonalwordfilters.apply(e.message());
+			message = filter(message, wordFilters);
+		}
 
 		String msg = PlainTextComponentSerializer.plainText().serialize(message);
-		Attribute selected = null;
 
 		// the actual meat and potatoes of the entire class
 		for (Attribute a : formattingAttribute) {
@@ -123,13 +136,11 @@ public class GreentextChatListener implements Listener {
 				TextColor color = TextColor.color(Color.HSBtoRGB(hue, 1.0f, 1.0f));
 				builder.append(Component.text(String.valueOf(c), color));
 			}
-
 			message = builder.build();
 		}
-
 		e.message(message);
 	}
-	
+
 	// code relating to Attribute selection logic
 
 	private Component replaceMagicChars(Component in, String chars) {
@@ -142,26 +153,10 @@ public class GreentextChatListener implements Listener {
 
 	// code relating to word filters
 
-	private static boolean isAprilFools;
-	static {
-		LocalDate currentDate = LocalDate.now();
-		isAprilFools = (currentDate.getMonthValue() == 4 && currentDate.getDayOfMonth() == 1);
-		// isAprilFools = true; //debug
-	}
-
-	private Component doAprilFools(Component message) {
-		if (isAprilFools) {
-			String[][] fourChanWordfilters = new String[][] { new String[] { "based", "soy(?!\s|$)" },
-					new String[] { "BASED", "SOY(?!\\s|$)" }, new String[] { "onions ", "soy\s*" },
-					new String[] { "ONIONS ", "SOY\\s*" } };
-			message = filter(message, fourChanWordfilters);
-		}
-		return message;
-	}
-
-	private Component filter(Component message, String[][] filters) {
+	public Component filter(Component message, String[][] filters) {
 		for (String[] filter : filters) {
-			message = message.replaceText(TextReplacementConfig.builder().replacement(filter[0]).match(filter[1]).build());
+			message = message
+					.replaceText(TextReplacementConfig.builder().replacement(filter[0]).match(filter[1]).build());
 		}
 		return message;
 	}
@@ -189,5 +184,4 @@ public class GreentextChatListener implements Listener {
 			this.deco = deco;
 		}
 	}
-
 }

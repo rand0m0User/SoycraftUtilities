@@ -11,21 +11,30 @@ commands:
   permban:
     usage: /permban <player> <reason>
     description: bans <player> with no expire date
+  ec:
+    description: Open the ender chest.
+    usage: /ec
+#  anon:
+#    description: send an anonomized chat message
+#    usage: /anon
   troll:
     description: Use a troll
-    usage: <command>
+    usage: /troll <player> <trolllist entry>
   trolllist:
     description: View trolls
-    usage: <command>
+    usage: /trolllist
+  scsettings:
+    description: open the soycraftUtilities settings menu
+    usage: /scsettings
   banhammer:
-    usage: /<command>
+    usage: /banhammer
     description: Gives you the banhammer
     aliases: [bh, banham, bhammer, bham]
   ipbanhammer:
-    usage: /<command>
+    usage: /ipbanhammer
     description: Gives you the ipbanhammer
     aliases: [ih, ipham, ihammer, iham]
   kickhammer:
-    usage: /<command>
+    usage: /kickhammer
     description: Gives you the kickhammer
     aliases: [ kh, kickham, khammer, kham ]

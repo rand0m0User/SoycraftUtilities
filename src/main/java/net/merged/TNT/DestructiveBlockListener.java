@@ -2,10 +2,12 @@ package net.merged.TNT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -16,10 +18,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.TNTPrimeEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
+import net.craftutil.Settings;
 import net.utils.ColorChat;
 
 @SuppressWarnings("deprecation")
@@ -48,14 +53,63 @@ public class DestructiveBlockListener implements Listener {
 		}
 	}
 
+	private void dotitle(Location l, String title) {
+		Collection<Player> players = l.getNearbyPlayers(50);
+		for (Player p : players) {
+			p.sendTitle(ChatColor.translateAlternateColorCodes('&', title), "", 10, 4 * 20, 10);
+		}
+	}
+
 	@EventHandler
 	public void onExplode(ExplosionPrimeEvent e) {
 		EntityType et = e.getEntity().getType();
 		if (et == EntityType.MINECART_TNT) {
+			if (!Settings.Explosives) {
+				dotitle(e.getEntity().getLocation(), "&4&l(YOU) WILL NEVER BE A WOMAN!");
+				e.getEntity().remove();
+				e.setCancelled(true);
+			}
 			announce("the &cTNT minecart &6was activated!");
 		} else if (et == EntityType.ENDER_CRYSTAL) {
+			if (!Settings.Explosives) {
+				dotitle(e.getEntity().getLocation(), "&4&l(YOU) WILL NEVER BE A WOMAN!");
+				e.getEntity().remove();
+				e.setCancelled(true);
+			}
 			announce("the &cEnd Crystal &6was activated!");
 		}
+	}
+
+	// merge 12+ command blocks into the plugin
+	@EventHandler
+	public void onEntitySpawn(EntitySpawnEvent e) {
+		if (Settings.Explosives) {
+			return;
+		}
+		Boolean cancel = false;
+		Boolean msg1 = false;
+		Boolean msg2 = false;
+		switch (e.getEntity().getType()) {
+		case MINECART_TNT, PRIMED_TNT, WITHER:
+			cancel = true;
+			msg1 = true;
+			break;
+		case ENDER_CRYSTAL:
+			cancel = true;
+			msg2 = true;
+			break;
+		default:
+			break;
+		}
+		Collection<Player> players = e.getEntity().getLocation().getNearbyPlayers(50);
+		if (msg1) {
+			dotitle(e.getEntity().getLocation(), "&4&l(YOU) WILL NEVER BE A WOMAN!");
+		}
+		if (msg2) {
+			dotitle(e.getEntity().getLocation(), "&4&l2B2T LOST!");
+
+		}
+		e.setCancelled(cancel);
 	}
 
 	@EventHandler
@@ -78,6 +132,7 @@ public class DestructiveBlockListener implements Listener {
 		case DISPENSER: // may be redundant due to modispencermachanics the Dispenser-Block showing as a
 						// player
 			announce("a &bDispenser &6activated the &cTNT&6!");
+			break;
 		default:
 			break;
 		}

@@ -1,0 +1,12 @@
+Main:
+  # If you want players to be able to use explosives
+  Explosives: false
+  Wordfilters: true
+  AprilFoolsDisable: false
+  AprilFoolsOveride: false
+  JuneDisable: false
+  JuneOveride: false
+  BookBan: true
+  Loot: false
+  FestiveWordfiltersDisable: false
+  FestiveWordfiltersOveride: false

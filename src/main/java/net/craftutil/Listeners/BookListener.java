@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEditBookEvent;
 
+import net.craftutil.Settings;
 import net.utils.ColorChat;
 
 public class BookListener implements Listener {
@@ -15,9 +16,11 @@ public class BookListener implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBookEdit(PlayerEditBookEvent e) {
+		if(!Settings.BookBan) {
+			return;
+		}
 		for (String bookPage : e.getNewBookMeta().getPages()) {
 			if (!StandardCharsets.US_ASCII.newEncoder().canEncode(bookPage)) {
-				e.setCancelled(true);
 				getServer().broadcastMessage(ColorChat.chat(
 						"&4" + e.getPlayer().getDisplayName() + " tried to write non ascii characters into a book!"));
 				String s = "";
@@ -25,7 +28,7 @@ public class BookListener implements Listener {
 					s += "AAAAAAAAAAAAAAAA";
 				}
 				e.getPlayer().kickPlayer(ColorChat.chat("&k" + s));
-				return;
+				e.setCancelled(true);
 			}
 		}
 	}

@@ -123,6 +123,11 @@ public class Troll implements CommandExecutor {
 							ColorChat.chat("&7&o[" + sender.getName() + ": Made " + pln + " a server operator]"));
 					succes(sender, args[1], pln);
 					break;
+				case "fakedeop":
+					pl.sendMessage(
+							ColorChat.chat("&7&o[" + sender.getName() + ": Made " + pln + " no longer a server operator]"));
+					succes(sender, args[1], pln);
+					break;
 				case "push":
 					if (loc == null) {
 						err(sender);

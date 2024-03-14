@@ -15,7 +15,7 @@ import org.bukkit.util.StringUtil;
 
 public class TrollCompleter implements TabCompleter {
 
-	private static String[] TROLLS = new String[] { "forcechat", "fakeop", "launch", "push", "burn", "buildtroll",
+	private static String[] TROLLS = new String[] { "forcechat", "fakeop", "fakedeop", "launch", "push", "burn", "buildtroll",
 			"breaktroll", "adventure", "freeze", "mute", "creeper", "tnt", "smite", "trap", "fakeban", "crashkick",
 			"fakejoin", "fakeleave" };
 

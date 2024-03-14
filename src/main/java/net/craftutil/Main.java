@@ -27,6 +27,8 @@ import net.merged.greentextPlus.GreentextChatListener;
 
 public class Main extends JavaPlugin {
 
+	public static Main plugin;
+
 	public static ArrayList<Player> cantBuild = new ArrayList<Player>();
 	public static ArrayList<Player> cantBreak = new ArrayList<Player>();
 	public static ArrayList<Player> cantSpeek = new ArrayList<Player>();
@@ -39,10 +41,16 @@ public class Main extends JavaPlugin {
 	// I ❤ BOILERPLATE
 	@Override
 	public void onEnable() {
+		plugin = this;
+		
+		new Settings().setup();
 
 		console.info("Initializing commands");
 		initCommand("tempban", new TempBan(), new TempBanCompleter());
 		initCommand("permban", new PermBan(), new PermBanCompleter());
+		initCommand("ec", new EnderChest(), null);
+		initCommand("scsettings", new SettingsCmd(), null);
+		// initCommand("anon", new anon(), null);
 
 		// merged: admintrolling (plus)
 		initCommand("troll", new Troll(), new TrollCompleter());
@@ -63,7 +71,7 @@ public class Main extends JavaPlugin {
 		listen(new LootGenerateListener());
 
 		// anti discord proxy scanner bot
-		// listen(new PlayerJoinListener()); //disabled due to inactivity
+		listen(new PlayerJoinListener()); // disabled due to inactivity
 
 		// AI generated code to handle the chineze book banner's shananigans (may be
 		// removed in the future)
@@ -73,9 +81,14 @@ public class Main extends JavaPlugin {
 			console.info("6 months has passed, BookListener is enabled");
 			listen(new BookListener());
 		}
+		
+		//GUI stuff
+		listen(new InventoryListener());
 
 		// usable crafting table and stonecutter (like a tool)
 		listen(new PlayerInteractListener());
+
+		// listen(new PlayerDeathListener());
 
 		// merged: admintrolling (plus)
 		listen(new BuildTroll());
@@ -101,6 +114,15 @@ public class Main extends JavaPlugin {
 	// I ❤ BOILERPLATE
 	// I ❤ BOILERPLATE
 
+	@Override
+	public void onDisable() {
+		new Settings().save();
+	}
+	// I ❤ BOILERPLATE
+	// I ❤ BOILERPLATE
+	// I ❤ BOILERPLATE
+
+	
 	// duplicate code removal
 	public void listen(Listener l) {
 		this.getServer().getPluginManager().registerEvents(l, this);
